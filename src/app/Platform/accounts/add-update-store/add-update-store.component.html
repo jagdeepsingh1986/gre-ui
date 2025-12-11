@@ -1,0 +1,170 @@
+<div class="store-setting-right">
+    <h3>
+        {{ storeForm.get('storeId')?.value > 0 ? 'Update Store' : 'Add New Store' }}
+    </h3>
+
+    <p>
+        {{ storeForm.get('storeId')?.value > 0
+        ? 'Please use the form below to update the store.'
+        : 'Please use the form below to create a new store.' }}
+    </p>
+    <span></span>
+
+    <form [formGroup]="storeForm">
+        <div class="row">
+
+            <!-- Store Name -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Store</label>
+                    <input type="text" class="form-control" placeholder="Enter Store Name" formControlName="storeName"
+                        maxlength="100" />
+                    <small class="error"
+                        *ngIf="storeForm.get('storeName')?.touched && storeForm.get('storeName')?.hasError('required')">
+                        Store Name is required.
+                    </small>
+                </div>
+            </div>
+
+            <!-- Territory Selection -->
+            <div class="col-md-6 position-relative">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Territory</label>
+
+                    <input type="text" class="form-control" placeholder="Search territory..."
+                        formControlName="territoryName" (input)="filterTerritories()" (focus)="dropdownOpen = true"
+                        (blur)="closeDropdown()" />
+
+                    <ul *ngIf="dropdownOpen && filteredTerritories.length" class="list-group position-absolute w-100"
+                        style="max-height: 200px; overflow-y: auto; z-index: 1000;">
+                        <li class="list-group-item list-group-item-action" *ngFor="let territory of filteredTerritories"
+                            (mousedown)="selectTerritory(territory)">
+                            {{ territory.territoryName }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 position-relative">
+                <div class="mb-3">
+                    <div class="store-addresses mt-4">
+                        <h5 class="fw-semibold mb-3">All Addresses</h5>
+
+                        <div *ngIf="addresses.length > 0; else noAddress" class="d-flex gap-3">
+                            <div *ngFor="let address of addresses" class="address-box p-2 mb-2 border rounded w-100">
+                                
+                                <div class="text-truncate me-3" style="max-width: 100%;">
+                                    <strong>Street:</strong> {{ address.streetAddress }} |
+                                    <strong>City:</strong> {{ address.city }} |
+                                    <strong>Province:</strong> {{ address.state }} |
+                                    <strong>Postal:</strong> {{ address.postalCode }} |
+                                    <strong>Country:</strong> {{ address.country }}
+                            </div>
+
+                            <!-- Actions -->
+                            <div>
+                                <button class="btn btn-sm  me-1" (click)="editAddress(address)" ><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-sm " (click)="removeAddress(address)"> <i class="bi bi-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #noAddress>
+                        <p class="error">No addresses added yet.</p>
+                    </ng-template>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Fields -->
+        <div>
+
+            <div class="col-md-12">
+                <h5 class="fw-semibold mt-3 mb-3">Address Details</h5>
+                <div class="col-md-12">
+
+                    <div *ngIf="user?.StoreId=='0' || userRoles?.includes('IsAdmin')" class="d-flex justify-content-end mb-3">
+                        <button class="common-btn mt-4 border-0" (click)="addAddress()">
+                            <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                            <p class="text-white m-0">
+                                Add Address
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div *ngIf="addAddressMode">
+
+                    <div class="mb-3">
+                        <label class="  form-label fw-semibold">Street Address</label>
+                        <input type="text" class="form-control" placeholder="Street Address" formControlName="streetAddress"
+                            maxlength="200" />
+                    </div>
+    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">City</label>
+                        <input type="text" class="form-control" placeholder="City" formControlName="city" maxlength="100" />
+                    </div>
+    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Province</label>
+                        <input type="text" class="form-control" placeholder="Province" formControlName="state"
+                            maxlength="100" />
+                    </div>
+    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Postal Code</label>
+                        <input type="text" class="form-control" placeholder="Postal Code" formControlName="postalCode"
+                            maxlength="20" />
+                    </div>
+    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Country</label>
+                        <input type="text" class="form-control" placeholder="Country" formControlName="country"
+                            maxlength="100" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Is Primary Toggle -->
+        <!-- <div class="col-md-6">
+        <div class="form-check form-switch mb-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="isPrimary"
+            id="isPrimaryToggle"
+          />
+          <label class="form-check-label" for="isPrimaryToggle">
+            Is Primary Store
+          </label>
+        </div>
+      </div> -->
+
+        <!-- Account Status -->
+        <!-- <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Account Status</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Account Status"
+            formControlName="accountStatus"
+            maxlength="100"
+          />
+        </div>
+      </div> -->
+
+        <!-- Submit Button -->
+        <div class="col-md-12">
+            <button type="submit" class="common-btn mt-4 border-0" (click)="onSaveStore()">
+                <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                <p class="text-white m-0">
+                    {{ storeForm.get('storeId')?.value > 0 ? 'Update Store' : 'Create Store' }}
+                </p>
+            </button>
+        </div>
+
+</div>
+</form>
+</div>

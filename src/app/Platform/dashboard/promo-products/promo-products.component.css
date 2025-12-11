@@ -1,0 +1,10 @@
+.optDisplay {
+  background-color: #f5eddf;
+  transition: background-color 0.3s ease; /* smooth effect */
+}
+
+.optDisplay:hover {
+  color: #795f73 !important; /* change to your hover color */
+}
+
+

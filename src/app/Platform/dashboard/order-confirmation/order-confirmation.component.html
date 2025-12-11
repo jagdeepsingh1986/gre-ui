@@ -1,0 +1,292 @@
+<section class="tobacco-order">
+    <div class="container">
+        <h2>Order Confirmation for Tobacco Products</h2>
+        <p>Please review your order before submitting.</p>
+        <div class="table-responsive">
+            <table class="table table-bordered m-0">
+                <thead>
+                    <tr>
+                        <th width="50%">Product</th>
+                        <th width="15%">Cases Ordered</th>
+                        <th width="15%">Cartons Ordered</th>
+                        <th width="20%">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of cartItems | async">
+                        <td>
+                            <div class="table-featured-product">
+                                <span>
+                                    <h4>{{item.productName}}</h4>
+                                </span>
+
+                                <button class="btn btn-link" type="button" (click)="openProductDetailModal(item)">
+                                    <img data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                        src="assets/images/info.svg" alt="Info Icon">
+                                </button>
+                            </div>
+                        </td>
+                        <td>{{item.orderCases}}</td>
+                        <td>{{item.orderCartons}}</td>
+                        <td>{{item.subtotal}}</td>
+                    </tr>
+                    <!-- <tr>
+                        <td>
+                            <div class="table-featured-product">
+                                <span>
+                                    <h4>DK’S PREMIUM FULL FLAVOUR KS 20’S</h4>
+                                </span>
+                                <img data-bs-toggle="modal" data-bs-target="#exampleModal" src="assets/images/info.svg" alt="Info Icon">
+                            </div>
+                        </td>
+                        <td>2</td>
+                        <td></td>
+                        <td>$96.00</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="table-featured-product">
+                                <span>
+                                    <h4>DK’S PREMIUM FULL FLAVOUR KS 20’S</h4>
+                                </span>
+                                <img data-bs-toggle="modal" data-bs-target="#exampleModal" src="assets/images/info.svg" alt="Info Icon">
+                            </div>
+                        </td>
+                        <td>1</td>
+                        <td></td>
+                        <td>$4,400.00</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="table-featured-product">
+                                <span>
+                                    <h4>DK’S PREMIUM FULL FLAVOUR KS 20’S</h4>
+                                </span>
+                                <img data-bs-toggle="modal" data-bs-target="#exampleModal" src="assets/images/info.svg" alt="Info Icon">
+                            </div>
+                        </td>
+                        <td></td>
+                        <td>2</td>
+                        <td>$96.00</td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <ng-container *ngIf="cartItems | async as items">
+                <div *ngIf="items.length === 0" class="text-center mt-4">
+                    Your cart is currently empty.
+                </div>
+                <div *ngIf="items.length != 0" class="table-footer" style="width:20.05%;">
+                    <h5>Total</h5>
+                    <h5>{{totalAmount$|async| currency:'USD'}}</h5>
+                </div>
+            </ng-container>
+
+
+        </div>
+        <!-- <form>
+            
+
+            <div class="form-check">
+                <input class="form-check-input" [(ngModel)]="isConfirmed" name="confirmCheckbox" type="checkbox"
+                    id="checkDefault" />
+                <label class="form-check-label" for="checkDefault">
+                    I have checked all quantities selected and am ready to order. *
+                </label>
+
+                <div *ngIf="showConfirmValidation && !isConfirmed" class="text-danger mt-1">
+                    Please confirm before submitting.
+                </div>
+            </div>
+
+            <div class="important-note">
+                <p><b>IMPORTANT!</b> Once submitted, in order to cancel or change your order, you will need to contact
+                    the order desk at  (519) 445-0919 Ext.243 or (226) 208-6214. Please review the above order and click Submit Order to transmit the
+                    order to the order desk or return to order form to make changes.</p>
+                <div class="important-note-btns">
+                    <a [routerLink]="['/dashboard/products']" class="common-btn mt-4 bg-white">
+                        <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                        <p class="m-0">Back to Order Form</p>
+                    </a>
+
+                    <button class="common-btn mt-4" type="button" (click)="submitOrder()">
+                        <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                        <p class="text-white m-0">Submit Order</p>
+                    </button>
+                </div>
+            </div>
+        </form> -->
+
+        <!-- <form #orderForm="ngForm">
+
+            <div class="store-addresses mt-4">
+                <h5 class="fw-semibold mb-3">All Addresses</h5>
+
+                <div *ngIf="addresses.length > 0; else noAddress" class="row g-3">
+                    <div class="col-md-6" *ngFor="let address of addresses; let i = index">
+                        <div class="address-box p-2 border rounded d-flex justify-content-between align-items-center">
+
+                            <div class="form-check me-3">
+                                <input class="form-check-input" type="radio" name="selectedAddress"
+                                    [(ngModel)]="selectedAddressId" [value]="address.addressId" id="address{{i}}"
+                                    required />
+                            </div>
+
+                            <div class="text-truncate me-3" style="max-width: 100%;">
+                                <strong>Street:</strong> {{ address.streetAddress }} |
+                                <strong>City:</strong> {{ address.city }} |
+                                <strong>State:</strong> {{ address.state }} |
+                                <strong>Postal:</strong> {{ address.postalCode }} |
+                                <strong>Country:</strong> {{ address.country }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ng-template #noAddress>
+                    <p class="text-danger">No addresses added yet.</p>
+                </ng-template>
+            </div>
+
+            <div class="form-check mt-3">
+                <input class="form-check-input" [(ngModel)]="isConfirmed" name="confirmCheckbox" type="checkbox"
+                    id="checkDefault" />
+                <label class="form-check-label" for="checkDefault">
+                    I have checked all quantities selected and am ready to order. *
+                </label>
+                <div *ngIf="showConfirmValidation && !isConfirmed" class="text-danger mt-1">
+                    Please confirm before submitting.
+                </div>
+            </div>
+
+            <div class="important-note mt-4">
+                <p><b>IMPORTANT!</b> Once submitted, in order to cancel or change your order, you will need to contact
+                    the order desk at (519) 445-0919 Ext.243 or (226) 208-6214. Please review the above order and click
+                    Submit Order to transmit the
+                    order to the order desk or return to order form to make changes.</p>
+
+                <div class="important-note-btns d-flex gap-3">
+                    <a [routerLink]="['/dashboard/products']"
+                        class="common-btn mt-4 bg-white d-flex align-items-center">
+                        <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid me-2" />
+                        <p class="m-0">Back to Order Form</p>
+                    </a>
+
+                    <button class="common-btn mt-4 d-flex align-items-center" type="button" (click)="submitOrder()">
+                        <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid me-2" />
+                        <p class="text-white m-0">Submit Order</p>
+                    </button>
+                </div>
+            </div>
+
+        </form> -->
+
+        <form #orderForm="ngForm">
+
+    <!-- Addresses Section -->
+    <div class="store-addresses mt-4">
+        <h5 class="fw-semibold mb-3">All Addresses</h5>
+
+        <div *ngIf="addresses.length > 0; else noAddress" class="row g-3">
+            <div class="col-md-6" *ngFor="let address of addresses; let i = index">
+                <div class="address-box p-2 border rounded d-flex justify-content-between align-items-center">
+
+                    <!-- Radio button to select address -->
+                    <div class="form-check me-3">
+                        <input class="form-check-input"
+                               type="radio"
+                               name="selectedAddress"
+                               [(ngModel)]="selectedAddressId"
+                               [value]="address.addressId"
+                               id="address{{i}}"
+                               required />
+                        
+                    </div>
+
+                    <!-- Address details in one line -->
+                    <div class="text-truncate me-3" style="max-width: 100%;">
+                        <label class="form-check-label" for="address{{i}}">
+                            <strong>Street:</strong> {{ address.streetAddress }} |
+                            <strong>City:</strong> {{ address.city }} |
+                            <strong>Province :</strong> {{ address.state }} |
+                            <strong>Postal:</strong> {{ address.postalCode }} |
+                            <strong>Country:</strong> {{ address.country }}
+                           </label>
+                            </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Validation message -->
+        <div *ngIf="showAddressValidation && !selectedAddressId" class="text-danger mt-2">
+            Please select an address before submitting.
+        </div>
+
+        <ng-template #noAddress>
+            <p class="text-danger">No addresses added yet.</p>
+        </ng-template>
+    </div>
+
+    <!-- Confirm Checkbox -->
+    <div class="form-check mt-3">
+        <input class="form-check-input"
+               [(ngModel)]="isConfirmed"
+               name="confirmCheckbox"
+               type="checkbox"
+               id="checkDefault" />
+        <label class="form-check-label" for="checkDefault">
+            I have checked all quantities selected and am ready to order. *
+        </label>
+        <div *ngIf="showConfirmValidation && !isConfirmed" class="text-danger mt-1">
+            Please confirm before submitting.
+        </div>
+    </div>
+
+    <!-- Important Note and Buttons -->
+    <div class="important-note mt-4">
+        <p><b>IMPORTANT!</b> Once submitted, in order to cancel or change your order, you will need to contact
+            the order desk at (519) 445-0919 Ext.243 or (226) 208-6214. Please review the above order and click
+            Submit Order to transmit the
+            order to the order desk or return to order form to make changes.</p>
+
+        <div class="important-note-btns d-flex gap-3">
+            <a [routerLink]="['/dashboard/products']"
+               class="common-btn mt-4 bg-white d-flex align-items-center">
+                <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid me-2" />
+                <p class="m-0">Back to Order Form</p>
+            </a>
+
+            <button class="common-btn mt-4 d-flex align-items-center"
+                    type="button"
+                    (click)="submitOrder()">
+                <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid me-2" />
+                <p class="text-white m-0">Submit Order</p>
+            </button>
+        </div>
+    </div>
+</form>
+
+
+    </div>
+</section>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered custom-modal-md">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="info-modal-content">
+                    <img [src]="selectedProductModal?.productBase64" width="200" alt="Pack">
+                    <div class="package-info">
+                        <h5>{{selectedProductModal?.productName}}</h5>
+                        <p>{{selectedProductModal?.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-order-confirm-modal #successModal (closed)="onSuccessModalClosed()"
+    [orderType]="orderType"></app-order-confirm-modal>
