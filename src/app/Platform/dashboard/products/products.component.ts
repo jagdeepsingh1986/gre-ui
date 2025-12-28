@@ -119,14 +119,27 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     }
 
     openProductDetailModal(product: Product) {
+      debugger
       this.selectedProductModal = product;
-      // @ts-ignore
-      this.selectedProductModal = {
-        ...this.selectedProductModal,
-        productBase64: `data:image/jpeg;base64,${this.selectedProductModal?.productBase64}`,
+      
+      this.dashboardService.getProductDescription(product.productId).subscribe((res: any) => {
+        if (res.statusCode === 200) {
+          this.selectedProductModal = {
+            ...this.selectedProductModal,
+            description: res.data.description,
+            productBase64: `data:image/jpeg;base64,${res.data.productBase64}`
+          } as Product;
+          const modal = new (window as any).bootstrap.Modal(document.getElementById('exampleModal')!);
+          modal.show();
+        }
       }
-      const modal = new (window as any).bootstrap.Modal(document.getElementById('exampleModal')!);
-      modal.show();
+    );
+
+      // @ts-ignore
+      // this.selectedProductModal = {
+      //   ...this.selectedProductModal,
+      //   productBase64: `data:image/jpeg;base64,${this.selectedProductModal?.productBase64}`,
+      // }
     }
 
     onPageChanged(newPage: number) {

@@ -16,6 +16,7 @@ export class DashboardService {
   private getFeaturedProductUrl: string = 'Product/GetFeaturedProduct';
   private getCartItemsUrl: string = 'Order/GetCartItems';
   private getAllProductsUrl: string = 'Product/GetAllProducts';
+  private getProductDescriptionAndImageUrl: string = 'Product/GetProductDescriptionById';
   private addOrGetCartItemsUrl: string = 'Order/AddOrGetGetCartItems';
   private orderProductUrl: string = 'Order/OrderProducts';
   private deleteProductsUrl: string = 'Product/DeleteProduct';
@@ -33,6 +34,9 @@ export class DashboardService {
   }
   getAllProducts(filterModel: any) {
     return this.http.post<any>(`${this.apiUrl + this.getAllProductsUrl}`, filterModel);
+  }
+  getProductDescription(productId: any) {
+    return this.http.post<any>(`${this.apiUrl + this.getProductDescriptionAndImageUrl}`, productId );
   }
   getFeaturedProduct(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl + this.getFeaturedProductUrl}`);

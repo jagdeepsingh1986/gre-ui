@@ -9,8 +9,13 @@
                 <input type="text" class="form-control" placeholder="Search Products" [(ngModel)]="searchTerm"
                     (ngModelChange)="onSearchTermChange($event)" />
             </div>
-            <button class="btn btn-outline-primary" [routerLink]="['/dashboard/account/add-product']">
+            <!-- <button class="btn btn-outline-primary" [routerLink]="['/dashboard/account/add-product']">
                 + Add New Product
+            </button> -->
+            <button class="common-btn mb-2 border-0" [routerLink]="['/dashboard/account/add-product']">
+                <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                <p class="text-white m-0">
+                    + Add New Product </p>
             </button>
         </div>
         }
@@ -74,23 +79,25 @@
 
                         <td>{{product.pricePerCaseDistributor|currency:'USD'}} /
                             {{product.pricePerCartonDistributor|currency:'USD'}}</td>
-                        
+
                         <td class="text-center">
                             <label class="custom-switch">
                                 <input type="checkbox" [checked]="product.isActive" (change)="toggleActive(product)" />
                                 <span class="slider"></span>
                             </label>
                         </td>
-                        
+
                         <div class="text-center d-flex justify-content-center">
 
 
-                            <button matTooltipPosition="above" mat-raised-button matTooltip="Edit Product" class="btn btn-sm me-2 border-0" (click)="onUpdateProduct(product?.productId
+                            <button matTooltipPosition="above" mat-raised-button matTooltip="Edit Product"
+                                class="btn btn-sm me-2 border-0" (click)="onUpdateProduct(product?.productId
               )">
                                 <div><i class="bi bi-pencil"></i></div>
                             </button>
-                            <button  matTooltipPosition="above" mat-raised-button matTooltip="Delete Product" class="btn btn-sm border-0" data-bs-toggle="modal"
-                                data-bs-target="#confirmationModal" (click)="setSelectedProduct(product)">
+                            <button matTooltipPosition="above" mat-raised-button matTooltip="Delete Product"
+                                class="btn btn-sm border-0" data-bs-toggle="modal" data-bs-target="#confirmationModal"
+                                (click)="setSelectedProduct(product)">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -98,30 +105,24 @@
                         @else {
                         <td>{{product.productPricePerCase|currency:'USD'}} /
                             {{product.productPricePerCarton|currency:'USD'}}</td>
-                             <td>
-        <input type="text"
-               class="form-control"
-               [(ngModel)]="product.orderCases"
-               (input)="onCasesInput($event, product)"
-               (blur)="onBlur(product, 'orderCases')"
-               (focus)="onFocus(product, 'orderCases')"
-               [ngClass]="{'is-invalid': product.caseInventoryErrorMessage}">
-        <small *ngIf="product.caseInventoryErrorMessage" class="text-danger">
-          {{ product.caseInventoryErrorMessage }}
-        </small>
-      </td>
-                         <td>
-        <input type="text"
-               class="form-control"
-               [(ngModel)]="product.orderCartons"
-               (input)="onCartonsInput($event, product)"
-               (blur)="onBlur(product, 'orderCartons')"
-               (focus)="onFocus(product, 'orderCartons')"
-               [ngClass]="{'is-invalid': product.cartonInventoryErrorMessage}">
-        <small *ngIf="product.cartonInventoryErrorMessage" class="text-danger">
-          {{ product.cartonInventoryErrorMessage }}
-        </small>
-      </td>
+                        <td>
+                            <input type="text" class="form-control" [(ngModel)]="product.orderCases"
+                                (input)="onCasesInput($event, product)" (blur)="onBlur(product, 'orderCases')"
+                                (focus)="onFocus(product, 'orderCases')"
+                                [ngClass]="{'is-invalid': product.caseInventoryErrorMessage}">
+                            <small *ngIf="product.caseInventoryErrorMessage" class="text-danger">
+                                {{ product.caseInventoryErrorMessage }}
+                            </small>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" [(ngModel)]="product.orderCartons"
+                                (input)="onCartonsInput($event, product)" (blur)="onBlur(product, 'orderCartons')"
+                                (focus)="onFocus(product, 'orderCartons')"
+                                [ngClass]="{'is-invalid': product.cartonInventoryErrorMessage}">
+                            <small *ngIf="product.cartonInventoryErrorMessage" class="text-danger">
+                                {{ product.cartonInventoryErrorMessage }}
+                            </small>
+                        </td>
 
                         <td>{{ product.subtotal | currency:'USD' }}</td>
                         }

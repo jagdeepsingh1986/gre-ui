@@ -92,3 +92,23 @@ export const canHavePromoOrderHistoryScreenPermission: CanActivateFn = (route, s
 
   return true; 
 };
+
+
+
+export const onlyApplicationAdmin: CanActivateFn = (route, state) => {
+    
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  const user = authService.getUser()// should return user info + roles
+
+  // Read roles from route data
+
+  if (user?.StoreId !== '0') {
+    // Redirect to unauthorized page or home
+    router.navigate(['/dashboard/unauthorize']); // change path if needed
+    return false; 
+  }
+
+  return true; 
+};

@@ -13,6 +13,7 @@ import { AddUpdateProductsComponent } from './add-update-products/add-update-pro
 import { FaqComponent } from '../dashboard/faq/faq.component';
 import { FaqsComponent } from './faqs/faqs.component';
 import { NewslettersComponent } from './newsletters/newsletters.component';
+import { onlyApplicationAdmin } from '../../Auth/auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -44,7 +45,8 @@ const routes: Routes = [
       },
       {
         path:'add-territories',
-        component:AddUpdateTerritoriesComponent
+        component:AddUpdateTerritoriesComponent,
+        canActivate:[onlyApplicationAdmin]
       },
       {
         path:'update-territory/:id',
@@ -53,7 +55,8 @@ const routes: Routes = [
       ,
       {
         path:'territories',
-        component:TerritoriesComponent
+        component:TerritoriesComponent,
+        canActivate:[onlyApplicationAdmin]
       },
       {
         path:'stores',
