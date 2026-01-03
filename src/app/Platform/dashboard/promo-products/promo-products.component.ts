@@ -327,17 +327,17 @@ export class PromoProductsComponent {
 
   }
 
-   toggleActive(product: PromoProduct) {
+  //  toggleActive(product: PromoProduct) {
         
-        this.dashboardService.activeOrInActiveProduct(product.productId, !product.isActive).subscribe((res: any) => {
-          if (res.statusCode === 200) {
-            product.isActive = !product.isActive; // Update local state
-            this.toaster.success(res.message);
-          } else {
-            this.toaster.error(res.message);
-          }
-        });
-      }
+  //       this.dashboardService.activeOrInActiveProduct(product.productId, !product.isActive).subscribe((res: any) => {
+  //         if (res.statusCode === 200) {
+  //           product.isActive = !product.isActive; // Update local state
+  //           this.toaster.success(res.message);
+  //         } else {
+  //           this.toaster.error(res.message);
+  //         }
+  //       });
+  //     }
   updatePagination() {
     this.totalRecords = Math.ceil(this.filteredProducts.length / this.pageSize);
     this.pages = Array.from({ length: this.totalRecords }, (_, i) => i + 1);

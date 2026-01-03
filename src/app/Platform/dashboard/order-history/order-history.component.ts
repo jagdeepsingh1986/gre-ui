@@ -66,29 +66,29 @@ orderHistory: OrderHistory = {
   //   })
   // }
   getOrderHistory() {
-  if (this.isInvalidDateRange) {
-    this.toasterService.error("Invalid date range selected. Please select a valid range.");
-    this.filterModel.fromDate = new Date();
-    this.filterModel.toDate = null;
-    return;
-  }
-
-  this.orderService.getOrderHistory(this.filterModel).subscribe({
-    next: (res: any) => {
-      if (res.statusCode === 200 && res.data) {
-        this.orderHistory = {
-          orders: res.data.orders || [],
-          orderStatus: res.data.orderStatus || []
-        };
-        this.selectedStatusId = this.filterModel.statusId  ? Number(this.filterModel.statusId) : null;;
-      } else {
-        this.orderHistory = { orders: [], orderStatus: res.data.orderStatus || [] };
-      }
-    },
-    error: () => {
-      this.orderHistory = { orders: [], orderStatus: [] };
+    if (this.isInvalidDateRange) {
+      this.toasterService.error("Invalid date range selected. Please select a valid range.");
+      this.filterModel.fromDate = new Date();
+      this.filterModel.toDate = null;
+      return;
     }
-  });
+
+    this.orderService.getOrderHistory(this.filterModel).subscribe({
+      next: (response: any) => {
+        if (response.statusCode === 200 && response.data) {
+          this.orderHistory = {
+            orders: response.data.orders || [],
+            orderStatus: response.data.orderStatus || []
+          };
+          this.selectedStatusId = this.filterModel.statusId  ? Number(this.filterModel.statusId) : null;;
+        } else {
+          this.orderHistory = { orders: [], orderStatus: response.data.orderStatus || [] };
+        }
+      },
+      error: () => {
+        this.orderHistory = { orders: [], orderStatus: [] };
+      }
+    });
 }
 
   onStatusChange(order:any){

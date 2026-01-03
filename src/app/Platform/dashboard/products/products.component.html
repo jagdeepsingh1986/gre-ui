@@ -63,7 +63,7 @@
                                     <img *ngIf="product.isFeatured" src="assets/images/star.svg" alt="Star Icon">
                                     <h4 class="mt-2">{{product.productName}}</h4>
                                 </span>
-                                <button class="btn btn-link" type="button" (click)="openProductDetailModal(product)">
+                                <button matTooltipPosition="above" mat-raised-button matTooltip="Product Description" class="btn btn-link" type="button" (click)="openProductDetailModal(product)">
                                     <img data-bs-toggle="modal" data-bs-target="#exampleModal"
                                         src="assets/images/info.svg" alt="Info Icon">
                                 </button>
@@ -81,8 +81,8 @@
                             {{product.pricePerCartonDistributor|currency:'USD'}}</td>
 
                         <td class="text-center">
-                            <label class="custom-switch">
-                                <input type="checkbox" [checked]="product.isActive" (change)="toggleActive(product)" />
+                            <label class="custom-switch" matTooltipPosition="above" mat-raised-button matTooltip="Active/Inactive Product">
+                                <!-- <input type="checkbox" [checked]="product.isActive" (change)="toggleActive(product)" /> -->
                                 <span class="slider"></span>
                             </label>
                         </td>

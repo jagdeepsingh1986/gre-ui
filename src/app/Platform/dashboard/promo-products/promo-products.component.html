@@ -64,7 +64,7 @@
                                     <h6>{{product.productName}}</h6>
                                     <!-- <img [src]="'data:image/png;base64,' + product.productBase64" alt="Cap"> -->
                                 </span>
-                                <img data-bs-toggle="modal" data-bs-target="#exampleModal" src="assets/images/info.svg"
+                                <img matTooltipPosition="above" mat-raised-button matTooltip="Product Description" data-bs-toggle="modal" data-bs-target="#exampleModal" src="assets/images/info.svg"
                                     (click)="openProductDetailModal(product)" alt="Info Icon">
                             </div>
                         </td>
@@ -72,8 +72,8 @@
                         @if (user?.StoreId=="0")
                         {
                              <td class="text-center">
-                            <label class="custom-switch">
-                                <input type="checkbox" [checked]="product.isActive" (change)="toggleActive(product)" />
+                            <label class="custom-switch" mat-raised-button matTooltip="Active/Inactive Product">
+                                <!-- <input type="checkbox" [checked]="product.isActive" (change)="toggleActive(product)" /> -->
                                 <span class="slider"></span>
                             </label>
                         </td>
