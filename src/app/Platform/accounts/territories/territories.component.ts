@@ -29,6 +29,12 @@ export class FilterTerritory {
   searchTerritoryTerm:string='';
   
 }
+export class UserFilterModel {
+  pageNumber:number=1;
+  pageSize:number = 5;
+  searchTerm:string='';
+  
+}
 
 @Component({
   selector: 'app-territories',

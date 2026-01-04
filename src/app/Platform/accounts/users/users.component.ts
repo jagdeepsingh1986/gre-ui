@@ -9,10 +9,12 @@ import { ConfirmationModalComponent } from '../../../Core/common/confirmation-mo
 import { AuthService, JwtPayload } from '../../../Auth/auth/auth.service';
 import { take } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PaginationComponent } from '../../../Core/common/pagination/pagination.component';
+import { UserFilterModel } from '../territories/territories.component';
 
 @Component({
   selector: 'app-users',
-  imports: [MatTooltipModule,CommonModule,ConfirmationModalComponent],
+  imports: [MatTooltipModule,CommonModule,ConfirmationModalComponent,PaginationComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
@@ -23,6 +25,11 @@ private accountService = inject(AccountService);
 private authService = inject(AuthService);
 private toastrService = inject(ToastrService);
 private router = inject(Router);
+filterModel: UserFilterModel = new UserFilterModel();
+totalRecords: number = 0;
+pageSize: number = 5;
+page: number = 1;
+
 selectedUser: any;
   constructor() {}
 
@@ -30,15 +37,16 @@ selectedUser: any;
      this.authService.user$.pipe(take(1)).subscribe(user => {
             this.loggeduser = user;
           });
-    this.getAllUsers();
+    this.getAllUsers(this.filterModel);
   }
 
-  getAllUsers() {
-    this.accountService.getAllUser().subscribe((response: any) => {
+  getAllUsers(filterModel:any) {
+    this.accountService.getAllUser(filterModel).subscribe((response: any) => {
       if (response.statusCode === 200) {
         if (response.data && response.data.length > 0) {
 
             this.users = response.data as User[];
+            this.totalRecords = response.data[0].totalRecords;
             // console.log('Hello',this.users);
             // console.log(response.data);
         } else {
@@ -62,7 +70,7 @@ handleDelete(isConfirmed: boolean) {
     this.accountService.deleteUser(this.selectedUser.userId).subscribe((response: any) => {
       if (response.statusCode === 200) {
         this.toastrService.success(response.message);
-        this.getAllUsers(); // Refresh the user list after deletion
+        this.getAllUsers(this.filterModel); // Refresh the user list after deletion
       } else {
         this.toastrService.error(response.message);
       }
@@ -72,5 +80,18 @@ handleDelete(isConfirmed: boolean) {
 navigateToAddUser(){
   this.router.navigate(['/dashboard/account/add-user']);
 }
+ onPageChanged(event:any){
+    
+    this.page = event;
+    this.filterModel.pageNumber=this.page;
+    this.getAllUsers(this.filterModel)
+  }
+  onPageSizeChange(event:any){
+     this.pageSize = event;
+  this.filterModel.pageNumber = 1; // reset to first page
+  this.filterModel.pageSize = this.pageSize;
+    this.getAllUsers(this.filterModel)
+  }
+
 }
 

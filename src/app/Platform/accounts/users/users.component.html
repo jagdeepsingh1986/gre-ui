@@ -71,7 +71,10 @@
       </tbody>
 
     </table>
-  </div>
+    <app-pagination [totalItems]="totalRecords" [itemsPerPage]="pageSize" [currentPage]="page"
+            (pageChanged)="onPageChanged($event)" (pageSizeChanged)="onPageSizeChange($event)"></app-pagination>  
+          </div>
+ 
 <!-- </div> -->
 
 <app-confirmation-modal [title]="'Delete User'"

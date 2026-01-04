@@ -17,7 +17,7 @@ export interface JwtPayload {
   UserName?: string;
   UserClassification?: string;
   UserType?: string;
-  Type?:string;
+  Type?: string;
   role?: string[];
   [key: string]: any;
 }
@@ -25,10 +25,10 @@ export interface JwtPayload {
   providedIn: 'root'
 })
 export class AuthService {
-    private http = inject(HttpClient);
-    private router = inject(Router);
+  private http = inject(HttpClient);
+  private router = inject(Router);
 
-    private apiUrl: string = environment.baseUrl;
+  private apiUrl: string = environment.baseUrl;
   private loginUrl: string = 'Login/LoginUser';
   private verifyOtpUrl: string = 'Login/ValidateOtp';
   private forgotPasswordUrl: string = 'User/ForgotPassword';
@@ -37,25 +37,54 @@ export class AuthService {
   user$ = this.userSubject.asObservable();
 
   constructor() {
-   
+
+    //   const token = this.getToken();
+    //   if (token && !this.isTokenExpired(token)) {
+    //     const user = this.decodeToken(token);
+    //     this.userSubject.next(user);
+    //     //this.scheduleAutoLogout(token);
+    //   } else if(token && this.isTokenExpired(token)) {
+    //     this.generateAccessTokenFromRefreshToken(localStorage.getItem('refreshToken') || '').subscribe((res:any)=>{
+    //       if(res.statusCode == 200) {
+    //         this.setToken(res.accessToken, res.refreshToken);
+    //         const user = this.decodeToken(res.accessToken);
+    //         this.userSubject.next(user);
+    //       } else {
+    //         this.logout();
+    //       }
+    //     })
+    //   }
+    debugger
     const token = this.getToken();
+
     if (token && !this.isTokenExpired(token)) {
       const user = this.decodeToken(token);
       this.userSubject.next(user);
-      //this.scheduleAutoLogout(token);
-    } else if(token && this.isTokenExpired(token)) {
-      this.generateAccessTokenFromRefreshToken(localStorage.getItem('refreshToken') || '').subscribe((res:any)=>{
-        if(res.statusCode == 200) {
-          this.setToken(res.accessToken, res.refreshToken);
-          const user = this.decodeToken(res.accessToken);
-          this.userSubject.next(user);
-        } else {
+
+    } else if (token && this.isTokenExpired(token)) {
+      this.generateAccessTokenFromRefreshToken(
+        localStorage.getItem('refreshToken') || ''
+      ).subscribe({
+        next: (res: any) => {
+          if (res.statusCode === 200) {
+            this.setToken(res.accessToken, res.refreshToken);
+            const user = this.decodeToken(res.accessToken);
+            this.userSubject.next(user);
+          } else {
+            this.logout();
+          }
+        },
+        error: () => {
           this.logout();
         }
-      })
-    }
-  }
+      });
 
+    } else {
+      // 🔴 THIS IS THE MISSING PART
+      this.userSubject.next(null);
+    }
+
+  }
   // API: login
   loginUser(loginObject: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}${this.loginUrl}`, loginObject);
@@ -67,7 +96,7 @@ export class AuthService {
   }
 
   // Token operations
-  setToken(token: string,refreshToken:any): void {
+  setToken(token: string, refreshToken: any): void {
     localStorage.setItem('accessToken', token);
     localStorage.setItem('refreshToken', refreshToken);
     const user = this.decodeToken(token);
@@ -101,9 +130,26 @@ export class AuthService {
     this.router.navigate(['']);
   }
 
-  getUser(): JwtPayload | null {
-    return this.userSubject.value;
+  // getUser(): JwtPayload | null {
+  //   return this.userSubject.value;
+  // }
+getUser(): JwtPayload | null {
+  const token = this.getToken(); // usually from localStorage
+
+  if (!token) {
+    this.userSubject.next(null);
+    return null;
   }
+
+  if (this.isTokenExpired(token)) {
+    this.userSubject.next(null);
+    return null;
+  }
+
+  const user = this.decodeToken(token);
+  this.userSubject.next(user);
+  return user;
+}
 
   setUser(user: JwtPayload): void {
     this.userSubject.next(user);
@@ -119,11 +165,11 @@ export class AuthService {
   // }
 
   generateAccessTokenFromRefreshToken(refreshToken: string): Observable<any> {
-     debugger
+    debugger
     return this.http.get<any>(`${this.apiUrl}Login/GenerateAccessTokenFromRefreshToken?refreshToken=${refreshToken}`);
   }
 
-  forgotPassword(forgotPasswordObject:any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl + this.forgotPasswordUrl}`,  forgotPasswordObject );
+  forgotPassword(forgotPasswordObject: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl + this.forgotPasswordUrl}`, forgotPasswordObject);
   }
 }

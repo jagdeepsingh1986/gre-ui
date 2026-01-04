@@ -56,9 +56,9 @@ export class AccountService {
     return this.http.post<any>(`${this.apiUrl + this.getStoreUrl}`, filterModel );
   }
 
-  getAllUser(): Observable<any> {
+  getAllUser(filterModel:any): Observable<any> {
     
-    return this.http.get<any>(`${this.apiUrl + this.getUsersUrl}` );
+    return this.http.post<any>(`${this.apiUrl + this.getUsersUrl}`,filterModel );
   }
 
   getUserByEmail(email:string): Observable<any> {
