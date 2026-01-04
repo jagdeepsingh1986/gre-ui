@@ -92,7 +92,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
       this.dashboardService.getAllProducts(filterModel).subscribe((res: any) => {
         if (res.statusCode == 200) {
           const freshProducts = res.data as Product[];
-          console.log(freshProducts);
+          // console.log(freshProducts);
           this.totalRecords = res.data[0].totalRecords;
           const cart = this.orderStateService.getCart();
 
@@ -498,17 +498,17 @@ onCasesInput(event: any, product: Product) {
       this.updatePagination();
       this.updatePagedProducts();
     }
-    // toggleActive(product: Product) {
+    toggleActive(product: Product) {
       
-    //   this.dashboardService.activeOrInActiveProduct(product.productId, !product.isActive).subscribe((res: any) => {
-    //     if (res.statusCode === 200) {
-    //       product.isActive = !product.isActive; // Update local state
-    //       this.toaster.success(res.message);
-    //     } else {
-    //       this.toaster.error(res.message);
-    //     }
-    //   });
-    // }
+      this.dashboardService.activeOrInActiveProduct(product.productId, !product.isActive).subscribe((res: any) => {
+        if (res.statusCode === 200) {
+          product.isActive = !product.isActive; // Update local state
+          this.toaster.success(res.message);
+        } else {
+          this.toaster.error(res.message);
+        }
+      });
+    }
 
 
 

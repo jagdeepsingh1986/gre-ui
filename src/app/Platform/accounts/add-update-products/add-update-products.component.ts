@@ -74,7 +74,7 @@ export class AddUpdateProductsComponent implements OnInit {
           if (res.statusCode === 200) {
             const product = res.data;
 
-            console.log('Fetched product for update:', product);
+            // console.log('Fetched product for update:', product);
             if (product.productType == 'promo' || product.productType == 'Promo') {
 
               this.productForm.patchValue({
@@ -237,7 +237,7 @@ export class AddUpdateProductsComponent implements OnInit {
     else {
 
       const productData = this.productForm.value;
-      console.log('Product Data to be saved:', productData);
+      // console.log('Product Data to be saved:', productData);
       this.productService.addProduct(productData).subscribe((res: any) => {
         if (res.statusCode === 200) {
           this.toasterService.success(res.message);

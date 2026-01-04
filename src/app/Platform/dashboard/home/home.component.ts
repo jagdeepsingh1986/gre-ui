@@ -29,7 +29,7 @@ export class HomeComponent {
   getFeaturedProduct() {
     this.dashboardService.getFeaturedProduct().subscribe((res: any) => {
       if (res.statusCode === 200) {
-        console.log(res.data);
+        // console.log(res.data);
         this.featuredProduct = res.data as Product || null;
         this.featuredProduct = {
           ...this.featuredProduct,

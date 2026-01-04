@@ -68,7 +68,7 @@ page: number = 1;
 
       }
     });
-    console.log(this.filterModel);
+    // console.log(this.filterModel);
     this.getNewsletters(this.filterModel);
   }
   resetNewsletterForm() {
@@ -81,7 +81,7 @@ page: number = 1;
   getNewsletters(filterModel:any): void {
     this.faqService.getNewLetters(filterModel).subscribe((response: any) => {
         if ( response.statusCode === 200) {
-          console.log(response.data);
+          // console.log(response.data);
           this.totalRecords = response.data[0]?.totalRecords || 0;
           this.newsLetters = response.data.map((n: any) => ({
             ...n,
@@ -234,7 +234,7 @@ this.existingFileName = newsletter.pdfName;
 
 
     
-    console.log(payload);
+    // console.log(payload);
 
     if( payload.newsletterId > 0){
       this.faqService.updateNewsLetter(this.newsletterForm.value).subscribe((res: any) => {

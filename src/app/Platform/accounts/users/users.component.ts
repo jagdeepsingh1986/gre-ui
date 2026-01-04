@@ -39,8 +39,8 @@ selectedUser: any;
         if (response.data && response.data.length > 0) {
 
             this.users = response.data as User[];
-            console.log('Hello',this.users);
-            console.log(response.data);
+            // console.log('Hello',this.users);
+            // console.log(response.data);
         } else {
           this.toastrService.info(response.message || 'No users found.');
         }

@@ -59,7 +59,7 @@ private router = inject(Router);
        
         this.territories = res.data;
         this.totalRecords = res.data[0].totalRecords
-        console.log(this.totalRecords)
+        // console.log(this.totalRecords)
       } else {
         this.toastrService.error(res.message);
       }

@@ -74,7 +74,10 @@ export class PromoProductsComponent {
       this.cart = items;
     });
     this.getPromoProducts();
-    this.getCartItems();
+    if(this.user?.StoreId!=='0'){
+
+      this.getCartItems();
+    }
   }
 
 
@@ -87,7 +90,7 @@ export class PromoProductsComponent {
     this.promoProductsService.getAllProducts(filterModel).subscribe((res: any) => {
       if (res.statusCode == 200) {
         const freshProducts = res.data as PromoProduct[];
-        console.log('Promo Products', freshProducts)
+        // console.log('Promo Products', freshProducts)
         const cart = this.promoOrderStateService.getCart();
 
         // Merge cart values into fresh products
@@ -327,17 +330,17 @@ export class PromoProductsComponent {
 
   }
 
-  //  toggleActive(product: PromoProduct) {
+   toggleActive(product: PromoProduct) {
         
-  //       this.dashboardService.activeOrInActiveProduct(product.productId, !product.isActive).subscribe((res: any) => {
-  //         if (res.statusCode === 200) {
-  //           product.isActive = !product.isActive; // Update local state
-  //           this.toaster.success(res.message);
-  //         } else {
-  //           this.toaster.error(res.message);
-  //         }
-  //       });
-  //     }
+        this.dashboardService.activeOrInActiveProduct(product.productId, !product.isActive).subscribe((res: any) => {
+          if (res.statusCode === 200) {
+            product.isActive = !product.isActive; // Update local state
+            this.toaster.success(res.message);
+          } else {
+            this.toaster.error(res.message);
+          }
+        });
+      }
   updatePagination() {
     this.totalRecords = Math.ceil(this.filteredProducts.length / this.pageSize);
     this.pages = Array.from({ length: this.totalRecords }, (_, i) => i + 1);

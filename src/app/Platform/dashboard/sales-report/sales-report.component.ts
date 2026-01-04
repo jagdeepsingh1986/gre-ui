@@ -58,7 +58,7 @@ export class SalesReportComponent {
   getSalesReport() {
     this.salesReportService.getSalesReport(this.filterModel).subscribe((res: any) => {
       if (res && res.statusCode == 200) {
-        console.log(res.data);
+        // console.log(res.data);
         this.salesRecordsList = res.data as SalesReportModel[];
         this.dateRange = res.data[0].dateRange;
         this.totalRecords= res.data[0].totalRecords;
@@ -85,7 +85,7 @@ this.filterModel.ToDate = this.formatDateForInput(res.data[0].toDate);
     stores: this.getAllStores(this.searchStoreTerm),
     territories: this.getAllTerritories(this.searchTerritoryTerm)
   }).subscribe(result => {
-    console.log("Check resiult",result);
+    // console.log("Check resiult",result);
     // Products
     if (result.products && result.products.statusCode === 200) {
       this.productList = result.products.data;

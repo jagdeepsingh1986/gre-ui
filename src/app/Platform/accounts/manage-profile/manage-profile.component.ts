@@ -23,7 +23,7 @@ export class ManageProfileComponent {
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
-    console.log(this.user);
+    // console.log(this.user);
 
     this.updateUserForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/), Validators.maxLength(100)]],

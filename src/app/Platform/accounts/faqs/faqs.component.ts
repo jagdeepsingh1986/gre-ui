@@ -45,7 +45,7 @@ export class FaqsComponent {
 
   loadFaqs(): void {
     this.faqService.getAllFaqs().subscribe((res: any) => {
-      console.log("faqs", this.faqs)
+      // console.log("faqs", this.faqs)
       this.faqs = res as Faq[];
       this.filteredFaqs = [...this.faqs];
     });
@@ -106,7 +106,7 @@ export class FaqsComponent {
       this.faqForm.setValue({...this.faqForm.value,id : 0})
     }
     const faqData = { ...this.faqForm.value };
-    console.log(faqData)
+    // console.log(faqData)
     if (this.selectedFaq) {
       this.faqService.updateFaq(faqData.id, faqData).subscribe(() => {
         this.cancelForm();

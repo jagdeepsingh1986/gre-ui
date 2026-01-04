@@ -82,7 +82,7 @@ export class AddUserComponent {
     this.accountService.getUserByEmail(email).subscribe((response: any) => {
       if (response.statusCode === 200 && response.data) {
         const user = response.data;
-        console.log(user);
+        // console.log(user);
         this.addUserForm.patchValue({
           userPermissionId: user.userPermissionId,
           userId: user.userId,
@@ -124,7 +124,7 @@ export class AddUserComponent {
     this.accountService.getAllStore(filterModel).subscribe(response => {
       if (response.statusCode === 200) {
         
-        console.log(response.data);
+        // console.log(response.data);
         this.stores = response.data as Store[];
         // this.filteredStores = [...this.stores]; // Initialize filtered stores
       }

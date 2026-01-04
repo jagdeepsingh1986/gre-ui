@@ -90,7 +90,7 @@ getOrderHistory() {
         this.orderHistory = { orders: [], orderStatus: [] };
       }
 
-      console.log('Order History:', this.orderHistory);
+      // console.log('Order History:', this.orderHistory);
     },
     error: (err) => {
       console.error('Error fetching order history:', err);

@@ -73,7 +73,7 @@ export class StoresComponent {
   loadStores(filterModel: any) {
     this.accountService.getAllStore(filterModel).subscribe((res: any) => {
       if (res && res.statusCode === 200) {
-        console.log(res.data);
+        // console.log(res.data);
         this.stores = res.data;
         this.totalRecords = res.data[0].totalRecords;
       } else {

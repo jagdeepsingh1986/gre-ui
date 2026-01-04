@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
 const router = inject(Router);
-
+debugger
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
@@ -22,9 +22,13 @@ export const canHavePromoOrderScreenPermission: CanActivateFn = (route, state) =
     
   const authService = inject(AuthService);
   const router = inject(Router);
+  debugger
 
   const user = authService.getUser()// should return user info + roles
-
+  if(user==null){
+    router.navigate(['/']);
+    return false;
+  }
   // Read roles from route data
   var canAccess = user?.role?.includes('CanOrderPromoProducts');
   if (!canAccess) {
@@ -42,7 +46,10 @@ export const canHaveOrderScreenPermission: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   const user = authService.getUser()// should return user info + roles
-
+ if(user==null){
+    router.navigate(['/']);
+    return false;
+  }
   // Read roles from route data
   var canAccess = user?.role?.includes('CanOrderSalesProducts');
   if (!canAccess) {
@@ -61,7 +68,10 @@ export const canHaveOrderHistoryScreenPermission: CanActivateFn = (route, state)
   const router = inject(Router);
 
   const user = authService.getUser()// should return user info + roles
-
+ if(user==null){
+    router.navigate(['/']);
+    return false;
+  }
   // Read roles from route data
   var canAccess = user?.role?.includes('CanViewOrderHistory');
   if (!canAccess) {
@@ -81,7 +91,10 @@ export const canHavePromoOrderHistoryScreenPermission: CanActivateFn = (route, s
   const router = inject(Router);
 
   const user = authService.getUser()// should return user info + roles
-
+ if(user==null){
+    router.navigate(['/']);
+    return false;
+  }
   // Read roles from route data
   var canAccess = user?.role?.includes('CanViewPromoOrderHistory');
   if (!canAccess) {
@@ -103,7 +116,10 @@ export const onlyApplicationAdmin: CanActivateFn = (route, state) => {
   const user = authService.getUser()// should return user info + roles
 
   // Read roles from route data
-
+ if(user==null){
+    router.navigate(['/']);
+    return false;
+  }
   if (user?.StoreId !== '0') {
     // Redirect to unauthorized page or home
     router.navigate(['/dashboard/unauthorize']); // change path if needed

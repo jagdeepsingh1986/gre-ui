@@ -37,7 +37,7 @@ export class AuthService {
   user$ = this.userSubject.asObservable();
 
   constructor() {
-      
+   
     const token = this.getToken();
     if (token && !this.isTokenExpired(token)) {
       const user = this.decodeToken(token);
@@ -72,7 +72,7 @@ export class AuthService {
     localStorage.setItem('refreshToken', refreshToken);
     const user = this.decodeToken(token);
     this.userSubject.next(user);
-    console.log('Decoded User:', this.userSubject);
+    // console.log('Decoded User:', this.userSubject);
     //this.scheduleAutoLogout(token);
   }
 
@@ -119,7 +119,7 @@ export class AuthService {
   // }
 
   generateAccessTokenFromRefreshToken(refreshToken: string): Observable<any> {
-     
+     debugger
     return this.http.get<any>(`${this.apiUrl}Login/GenerateAccessTokenFromRefreshToken?refreshToken=${refreshToken}`);
   }
 

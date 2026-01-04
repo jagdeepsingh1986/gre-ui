@@ -22,12 +22,12 @@ export class ForgotPasswordComponent {
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   if (!this.email) {
-    console.log('Email is required');
+    // console.log('Email is required');
     return;
   }
 
   if (!emailPattern.test(this.email)) {
-    console.log('Invalid email format');
+    // console.log('Invalid email format');
     return;
   }
 

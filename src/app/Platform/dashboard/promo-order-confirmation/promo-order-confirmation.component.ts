@@ -60,7 +60,7 @@ showAddressValidation: boolean = false;
   getCartItems() {
     this.promoProductsService.getPromoCartItems().subscribe((res: any) => {
       if (res.statusCode == 200 && res.data && res.data.length > 0) {
-        console.log('simple', res.data);
+        // console.log('simple', res.data);
         this.promoOrderStateService.clearCart();
         res.data.forEach((item: PromoProduct) => {
           item.sizeName = item.sizeName;
@@ -100,7 +100,7 @@ showAddressValidation: boolean = false;
   if (this.showConfirmValidation || this.showAddressValidation) {
     return;
   }
-    console.log(this.isConfirmed);
+    // console.log(this.isConfirmed);
       
     this.promoProductsService.orderPromoProducts(this.selectedAddressId).subscribe((res: any) => {
       if (res.statusCode == 200) {
